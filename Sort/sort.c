@@ -15,6 +15,20 @@ void selection(int *a, int n) {
 			if (*(a + j) < *(a + i)) swap(a + i, a + j);
 }
 
+void insertion(int *a, int n) {
+	int i, j;
+	for (i = 1; i < n; i++) {
+		int tmp = *(a + i);
+		for (j = i - 1; j >= 0; j--) {
+			if (tmp < *(a + j)) {
+				*(a + j + 1) = *(a + j);
+			}
+			else break;
+		}
+		*(a + j + 1) = tmp;
+	}
+}
+
 void printArray(int *a, int n) {
 	for (int *pa = a; pa < a + n; printf("%d ", *pa++));
 	printf("\n");
@@ -34,7 +48,8 @@ int main() {
 	printArray(a, n);
 
 	// sort
-	selection(a, n);
+	//selection(a, n);
+	insertion(a, n);
 
 	printArray(a, n);
 }
