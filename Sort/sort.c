@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 
@@ -29,6 +30,26 @@ void insertion(int *a, int n) {
 	}
 }
 
+void counting(int *a, int n) {
+	int *count = (int*)calloc(n + 1, sizeof(int)), i;
+	if (count == NULL) exit(1);
+
+	int *b = (int*)malloc(n * sizeof(int));
+	if (b == NULL) exit(2);
+	memcpy(b, a, n * sizeof(int));
+
+	for (i = 0; i < n; i++) count[a[i]]++;
+	for (i = 1; i <= n; i++) count[i] += count[i - 1];
+	
+	for (i = 0; i < n; i++) {
+		a[count[b[i]] - 1] = b[i];
+		count[b[i]]--;
+	}
+
+	free(b);
+	free(count);
+}
+
 void printArray(int *a, int n) {
 	for (int *pa = a; pa < a + n; printf("%d ", *pa++));
 	printf("\n");
@@ -45,11 +66,14 @@ int main() {
 
 	for (pa = a; pa < a + n; *pa++ = rand() / (RAND_MAX + 1.) * n + 1);
 
-	printArray(a, n);
+	//printArray(a, n);
 
 	// sort
 	//selection(a, n);
-	insertion(a, n);
+	//insertion(a, n);
+	counting(a, n);
 
-	printArray(a, n);
+	//printArray(a, n);
+
+	free(a);
 }
