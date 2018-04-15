@@ -50,6 +50,19 @@ void counting(int *a, int n) {
 	free(count);
 }
 
+void quick(int *a, int beg, int end) {
+	if (beg == end) return;
+	int wall = beg;
+	for (int i = beg; i < end; i++)
+		if (a[i] < a[end]) {
+			swap(&a[i], &a[wall]);
+			wall++;
+		}
+	swap(&a[wall], &a[end]);
+	if (wall > beg) quick(a, beg, wall - 1);
+	if (wall < end) quick(a, wall + 1, end);
+}
+
 void printArray(int *a, int n) {
 	for (int *pa = a; pa < a + n; printf("%d ", *pa++));
 	printf("\n");
@@ -71,7 +84,8 @@ int main() {
 	// sort
 	//selection(a, n);
 	//insertion(a, n);
-	counting(a, n);
+	//counting(a, n);
+	quick(a, 0, n - 1);
 
 	//printArray(a, n);
 
