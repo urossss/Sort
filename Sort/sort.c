@@ -68,8 +68,21 @@ void printArray(int *a, int n) {
 	printf("\n");
 }
 
+void printCurrentTime() {
+	time_t pIntTime = time(NULL);
+	struct tm* currentLocalTime = localtime(&pIntTime);
+	char timeString[11];
+	if (currentLocalTime) {
+		strftime(timeString, 10, "%H:%M:%S", currentLocalTime);
+		puts(timeString);
+	}
+}
+
 int main() {
 	int *a, *pa, n;
+	clock_t t1, t2;
+	double d;
+
 	scanf("%d", &n);
 
 	a = (int *)malloc(n * sizeof(int));
@@ -81,11 +94,17 @@ int main() {
 
 	//printArray(a, n);
 
-	// sort
+	printCurrentTime();
+	t1 = clock();
 	//selection(a, n);
 	//insertion(a, n);
-	//counting(a, n);
-	quick(a, 0, n - 1);
+	counting(a, n);
+	//quick(a, 0, n - 1);
+
+	t2 = clock();
+	d = (double)(t2 - t1) / CLOCKS_PER_SEC;
+	printCurrentTime();
+	printf("%lgs\n", d);
 
 	//printArray(a, n);
 
