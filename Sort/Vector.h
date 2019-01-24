@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 
@@ -14,9 +15,51 @@ public:
 };
 
 
+class Vector;
+
+class VectorItem {
+	Vector *vector = nullptr;
+	int value;
+public:
+	VectorItem(Vector *vec, int val) : vector(vec), value(val) {}
+
+	void onComparison();
+
+	bool operator==(const VectorItem &v) {
+		onComparison();
+		return value == v.value;
+	}
+	bool operator!=(const VectorItem &v) {
+		onComparison();
+		return value != v.value;
+	}
+	bool operator<(const VectorItem &v) {
+		onComparison();
+		return value < v.value;
+	}
+	bool operator<=(const VectorItem &v) {
+		onComparison();
+		return value <= v.value;
+	}
+	bool operator>(const VectorItem &v) {
+		onComparison();
+		return value > v.value;
+	}
+	bool operator>=(const VectorItem &v) {
+		onComparison();
+		return value >= v.value;
+	}
+
+	friend ostream& operator<<(ostream &os, const VectorItem &vi) {
+		return os << vi.value;
+	}
+};
+
+
 class Vector {
-	int *a, n;
-	int accesses = 0;
+	vector<VectorItem> elements;
+	int n;
+	mutable int accesses = 0, comparisons = 0, swaps = 0;
 public:
 	enum Order { ASCENDING, DESCENDING, SHUFFLED };
 
@@ -52,13 +95,41 @@ public:
 	int getAccesses() const {
 		return accesses;
 	}
+	int getComparisons() const {
+		return comparisons;
+	}
+	int getSwaps() const {
+		return swaps;
+	}
 	void resetAccesses(){
 		accesses = 0;
+	}
+	void resetComparisons() {
+		comparisons = 0;
+	}
+	void resetSwaps() {
+		swaps = 0;
+	}
+	void incComparisons() {
+		comparisons++;
 	}
 
 	friend ostream& operator<<(ostream &os, const Vector &v);
 
-	void swap(unsigned int, unsigned int);
+	void swap(int, int);
+
+	VectorItem& operator[](int i) {
+		if (i < 0 || i >= n)
+			throw ErrIndex();
+		accesses++;
+		return elements[i];
+	}
+	const VectorItem& operator[](int i) const {
+		if (i < 0 || i >= n)
+			throw ErrIndex();
+		accesses++;
+		return elements[i];
+	}
 
 private:
 	void copyVector(const Vector &v);
@@ -69,5 +140,6 @@ private:
 	void descending();
 	void shuffle();
 };
+
 
 #endif

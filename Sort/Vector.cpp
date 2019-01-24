@@ -1,8 +1,13 @@
 #include "Vector.h"
 
 
+void VectorItem::onComparison() {
+	vector->incComparisons();
+}
+
+
 Vector::Vector(int nn, Order order) {
-	a = new int[n = nn];
+	n = nn;
 
 	switch (order) {
 	case ASCENDING:
@@ -19,51 +24,50 @@ Vector::Vector(int nn, Order order) {
 }
 
 void Vector::copyVector(const Vector &v) {
-	a = new int[n = v.n];
-	for (int i = 0; i < n; i++)
-		a[i] = v.a[i];
+	n = v.n;
+	elements = v.elements;
 }
 
 void Vector::moveVector(Vector &v) {
-	a = v.a;
 	n = v.n;
-	v.a = nullptr;
+	v.elements = move(v.elements);
 }
 
 void Vector::deleteVector() {
-	delete[] a;
-	a = nullptr;
+	elements.clear();
 	n = 0;
 }
 
-void Vector::swap(unsigned int i, unsigned int j) {
-	if (i >= n || j >= n)
+void Vector::swap(int i, int j) {
+	if (i < 0 || i >= n || j < 0 || j >= n)
 		throw ErrIndex();
-	int tmp = a[i];
-	a[i] = a[j];
-	a[j] = tmp;
+	VectorItem tmp = elements[i];
+	elements[i] = elements[j];
+	elements[j] = tmp;
+	swaps++;
 }
 
 void Vector::ascending() {
 	for (int i = 0; i < n; i++)
-		a[i] = i + 1;
+		elements.push_back(VectorItem(this, i + 1));
 }
 
 void Vector::descending() {
 	for (int i = 0; i < n; i++)
-		a[i] = n - i;
+		elements.push_back(VectorItem(this, n - i));
 }
 
 void Vector::shuffle() {
 	for (int i = n - 1; i > 0; i--) {
-		int j = rand() / (RAND_MAX + 1.) * (i + 1);
+		int j = (int) (rand() / (RAND_MAX + 1.) * (i + 1));
 		swap(i, j);
 	}
+	resetSwaps();
 }
 
 ostream& operator<<(ostream &os, const Vector &v) {
 	os << '[';
 	for (int i = 0; i < v.n; i++)
-		os << ' ' << v.a[i] << (i == v.n - 1 ? ' ' : ',');
+		os << ' ' << v.elements[i] << (i == v.n - 1 ? ' ' : ',');
 	return os << ']';
 }
