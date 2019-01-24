@@ -78,7 +78,7 @@ void printCurrentTime() {
 	}
 }
 
-int main() {
+/*int main() {
 	int *a, *pa, n;
 	clock_t t1, t2;
 	double d;
@@ -109,4 +109,4 @@ int main() {
 	//printArray(a, n);
 
 	free(a);
-}
+}*/

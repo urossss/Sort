@@ -6,4 +6,5 @@
 
 # Don't ignore .gitignore and *.c files
 !.gitignore
-!*.c
+!*.cpp
+!*.h
