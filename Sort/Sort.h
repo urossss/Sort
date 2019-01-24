@@ -7,18 +7,20 @@
 
 class Sort {
 protected:
-	clock_t t1, t2;
+	clock_t t1 = 0, t2 = 0;
 public:
 	virtual ~Sort() {}
 
 	virtual void sort(Vector &v) = 0;
-	
+
 	double timeElapsed() const {
 		return 1000.0 * (t2 - t1) / CLOCKS_PER_SEC;
 	}
 };
 
 
+/******************/
+/* Insertion Sort */
 class Insertion: public Sort {
 public:
 	void sort(Vector &v) override {
@@ -32,6 +34,37 @@ public:
 				j--;
 			}
 			v[j + 1] = key;
+		}
+		t2 = clock();
+	}
+};
+
+
+/***************************************/
+/* Shell Sort                          */
+/*                                     */
+/* Increments by Knuth: Hi-1 = 3Hi + 1 */
+class Shell: public Sort {
+public:
+	void sort(Vector &v) override {
+		t1 = clock();
+		int incs[] = { 193710244, 64570081, 21523360, 7174453, 2391484,
+			797161, 265720, 88573, 29524, 9841,
+			3280, 1093, 364, 121, 40, 13, 4, 1 };
+		int t = sizeof(incs) / sizeof(incs[0]), n = v.getN(), k = 0, inc;
+		while (incs[k] >= n)
+			k++;
+		for (; k < t; k++) {
+			inc = incs[k];
+			for (int i = inc; i < n; i++) {
+				VectorItem key = v[i];
+				int j = i - inc;
+				while (j >= 0 && v[j] > key) {
+					v[j + inc] = v[j];
+					j -= inc;
+				}
+				v[j + inc] = key;
+			}
 		}
 		t2 = clock();
 	}
