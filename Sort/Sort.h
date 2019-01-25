@@ -75,7 +75,7 @@ public:
 /* Selection Sort */
 class Selection: public Sort {
 public:
-	void sort(Vector &v) {
+	void sort(Vector &v) override {
 		t1 = clock();
 		int n = v.getN(), pos;
 		for (int i = 0; i < n - 1; i++) {
@@ -88,6 +88,46 @@ public:
 				}
 			v[pos] = v[i];
 			v[i] = min;
+		}
+		t2 = clock();
+	}
+};
+
+
+/*************/
+/* Heap sort */
+class Heap: public Sort {
+public:
+	void sort(Vector &v) override {
+		t1 = clock();
+		int n = v.getN(), i, f, s;
+		for (i = 1; i < n; i++) {
+			VectorItem nhe = v[i];
+			s = i;
+			f = s / 2;
+			while (s > 0 && v[f] < nhe) {
+				v[s] = v[f];
+				s = f;
+				f = s / 2;
+			}
+			v[s] = nhe;
+		}
+		for (i = n - 1; i > 0; i--) {
+			VectorItem last = v[i];
+			v[i] = v[0];
+			f = 0;
+			if (i > 2 && v[2] > v[1])
+				s = 2;
+			else
+				s = 1;
+			while (s < i && v[s] > last) {
+				v[f] = v[s];
+				f = s;
+				s = 2 * f;
+				if (s < i - 1 && v[s] < v[s + 1])
+					s++;
+			}
+			v[f] = last;
 		}
 		t2 = clock();
 	}
