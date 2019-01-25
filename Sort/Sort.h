@@ -70,4 +70,27 @@ public:
 	}
 };
 
+
+/******************/
+/* Selection Sort */
+class Selection: public Sort {
+public:
+	void sort(Vector &v) {
+		t1 = clock();
+		int n = v.getN(), pos;
+		for (int i = 0; i < n - 1; i++) {
+			VectorItem min = v[i];
+			pos = i;
+			for (int j = i + 1; j < n; j++)
+				if (v[j] < min) {
+					min = v[j];
+					pos = j;
+				}
+			v[pos] = v[i];
+			v[i] = min;
+		}
+		t2 = clock();
+	}
+};
+
 #endif
