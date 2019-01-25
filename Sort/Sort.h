@@ -19,8 +19,9 @@ public:
 };
 
 
-/******************/
-/* Insertion Sort */
+/*
+ * Insertion Sort
+ */
 class Insertion: public Sort {
 public:
 	void sort(Vector &v) override {
@@ -39,11 +40,12 @@ public:
 	}
 };
 
-
-/***************************************/
-/* Shell Sort                          */
-/*                                     */
-/* Increments by Knuth: Hi-1 = 3Hi + 1 */
+ 
+/*
+ * Shell Sort
+ *
+ * Increments by Knuth: Hi-1 = 3Hi + 1
+ */
 class Shell: public Sort {
 public:
 	void sort(Vector &v) override {
@@ -71,8 +73,9 @@ public:
 };
 
 
-/******************/
-/* Selection Sort */
+/*
+ * Selection Sort
+ */
 class Selection: public Sort {
 public:
 	void sort(Vector &v) override {
@@ -94,8 +97,9 @@ public:
 };
 
 
-/*************/
-/* Heap sort */
+/*
+ * Heap Sort
+ */
 class Heap: public Sort {
 public:
 	void sort(Vector &v) override {
@@ -129,6 +133,28 @@ public:
 			}
 			v[f] = last;
 		}
+		t2 = clock();
+	}
+};
+
+
+/*
+ * Bubble Sort
+ */
+class Bubble: public Sort{
+public:
+	void sort(Vector &v) override {
+		t1 = clock();
+		int n = v.getN(), pos = n, bound, i;
+		do {
+			bound = pos;
+			pos = 0;
+			for (i = 0; i < bound - 1; i++)
+				if (v[i] > v[i + 1]) {
+					v.swap(i, i + 1);
+					pos = i;
+				}
+		} while (pos != 0);
 		t2 = clock();
 	}
 };
