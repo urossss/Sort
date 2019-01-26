@@ -98,7 +98,7 @@ private:
 
 
 /*
- *	Radix Exchange
+ * Radix Exchange
  */
 class RadixExchange: public Sort {
 public:
@@ -111,6 +111,15 @@ public:
 private:
 	int partition(Vector &v, int low, int high, int bit);
 	void radixExchange(Vector &v, int low, int high, int bit);
+};
+
+
+/*
+ * Counting Sort
+ */
+class Counting: public Sort{
+public:
+	void sort(Vector &v) override;
 };
 
 #endif

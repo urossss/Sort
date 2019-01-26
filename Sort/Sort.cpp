@@ -195,7 +195,7 @@ void Quick::quick(Vector &v, int low, int high) {
 
 
 /*
- *	Radix Exchange
+ * Radix Exchange
  */
 int RadixExchange::partition(Vector &v, int low, int high, int bit) {
 	int mask = 1 << bit, i = low, j = high;
@@ -218,4 +218,25 @@ void RadixExchange::radixExchange(Vector &v, int low, int high, int bit) {
 		radixExchange(v, low, h1, bit - 1);
 		radixExchange(v, l2, high, bit - 1);
 	}
+}
+
+
+/*
+ * Counting Sort
+ */
+void Counting::sort(Vector &v) {
+	t1 = clock();
+	Vector tmp = v;
+	int n = v.getN(), i, *c = new int[n + 1];
+	for (i = 0; i <= n; i++)
+		c[i] = 0;
+	for (i = 0; i < n; i++)
+		c[v[i].getValue()]++;
+	for (i = 2; i <= n; i++)
+		c[i] += c[i - 1];
+	for (i = n - 1; i >= 0; i--)
+		tmp[c[v[i].getValue()]-- - 1] = v[i];
+	v = tmp;
+	delete[] c;
+	t2 = clock();
 }
