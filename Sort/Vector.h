@@ -17,6 +17,10 @@ public:
 
 class Vector;
 
+
+/*
+ *	VectorItem
+ */
 class VectorItem {
 	Vector *vector = nullptr;
 	int value;
@@ -56,6 +60,9 @@ public:
 };
 
 
+/*
+ *	Vector
+ */
 class Vector {
 	vector<VectorItem> elements;
 	int n;
@@ -131,6 +138,8 @@ public:
 		return elements[i];
 	}
 
+	void shuffle();
+
 private:
 	void copyVector(const Vector &v);
 	void moveVector(Vector &v);
@@ -138,7 +147,6 @@ private:
 
 	void ascending();
 	void descending();
-	void shuffle();
 };
 
 
