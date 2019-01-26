@@ -96,4 +96,21 @@ private:
 	void quick(Vector &v, int low, int high);
 };
 
+
+/*
+ *	Radix Exchange
+ */
+class RadixExchange: public Sort {
+public:
+	void sort(Vector &v) override {
+		t1 = clock();
+		int width = sizeof(v[0].getValue()) * 8;
+		radixExchange(v, 0, v.getN() - 1, width - 1);
+		t2 = clock();
+	}
+private:
+	int partition(Vector &v, int low, int high, int bit);
+	void radixExchange(Vector &v, int low, int high, int bit);
+};
+
 #endif

@@ -192,3 +192,30 @@ void Quick::quick(Vector &v, int low, int high) {
 		quick(v, j + 1, high);
 	}
 }
+
+
+/*
+ *	Radix Exchange
+ */
+int RadixExchange::partition(Vector &v, int low, int high, int bit) {
+	int mask = 1 << bit, i = low, j = high;
+	while (i < j) {
+		while (i < j && (v[i].getValue() & mask) == 0)
+			i++;
+		while (i < j && (v[j].getValue() & mask) != 0)
+			j--;
+		if (i < j)
+			v.swap(i, j);
+	}
+	return j * ((v[j].getValue() & mask) ? 1 : -1);	// negative if pivot should be part of the left partition in next iteration
+}
+
+void RadixExchange::radixExchange(Vector &v, int low, int high, int bit) {
+	if (low < high && bit >= 0) {
+		int j = partition(v, low, high, bit);
+		int h1 = (j < 0 ? -j : j - 1);
+		int l2 = (j < 0 ? -j + 1 : j);
+		radixExchange(v, low, h1, bit - 1);
+		radixExchange(v, l2, high, bit - 1);
+	}
+}

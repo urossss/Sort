@@ -22,10 +22,16 @@ class Vector;
  *	VectorItem
  */
 class VectorItem {
+	using type_name = int;
+
 	Vector *vector = nullptr;
-	int value;
+	type_name value;
 public:
-	VectorItem(Vector *vec, int val) : vector(vec), value(val) {}
+	VectorItem(Vector *vec, type_name val) : vector(vec), value(val) {}
+
+	type_name getValue() const {
+		return value;
+	}
 
 	void onComparison();
 
