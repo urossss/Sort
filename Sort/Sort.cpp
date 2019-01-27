@@ -1,4 +1,6 @@
 #include "Sort.h"
+#include <queue>
+#include <list>
 
 
 /*
@@ -131,7 +133,7 @@ void Bubble::sort(Vector &v) {
  * Quick Sort
  */
 
-// returns pivot and its index in a Vector
+ // returns pivot and its index in a Vector
 Quick::PivotIndex Quick::selectPivot(Vector &v, int low, int high) {
 	int ind;
 	switch (p) {
@@ -238,5 +240,40 @@ void Counting::sort(Vector &v) {
 		tmp[c[v[i].getValue()]-- - 1] = v[i];
 	v = tmp;
 	delete[] c;
+	t2 = clock();
+}
+
+
+/*
+ * Radix Sort
+ */
+void Radix::sort(Vector &v) {
+	t1 = clock();
+	int n = v.getN(), i;
+	const int DIGITS = ceil(log10(n + 1));
+	list<int> q[10], Q;
+	for (i = 0; i < n; i++)
+		Q.push_back(i);
+	for (int k = 0; k < DIGITS; k++) {
+		int small = 1;
+		for (i = 1; i <= k; i++)
+			small *= 10;
+		int big = small * 10;
+		while (!Q.empty()) {
+			int ind = Q.front();
+			Q.pop_front();
+			int mod = (v[ind].getValue() % big) / small;
+			q[mod].push_back(ind);
+		}
+		for (i = 0; i <= 9; i++) {
+			Q.splice(Q.end(), q[i]);
+		}
+
+	}
+	Vector tmp = v;
+	for (i = 0; i < n; i++) {
+		v[i] = tmp[Q.front()];
+		Q.pop_front();
+	}
 	t2 = clock();
 }

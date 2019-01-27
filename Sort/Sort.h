@@ -122,4 +122,13 @@ public:
 	void sort(Vector &v) override;
 };
 
+
+/*
+ * Radix Sort
+ */
+class Radix: public Sort {
+public:
+	void sort(Vector &v) override;
+};
+
 #endif
